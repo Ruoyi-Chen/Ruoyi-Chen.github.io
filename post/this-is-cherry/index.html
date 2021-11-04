@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>JDBC（1）获取数据库连接的四种方法 | Chen Ruoyi </title>
+<title>JDBC（1）获取数据库连接的五种方法 | Chen Ruoyi </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636028747634">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636030371642">
 <link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
 
 
@@ -19,7 +19,7 @@
 
 
     <meta name="description" content="
-获取数据库连接的四种方法
+获取数据库连接的五种方法
 
 方法1： Diver -&gt; 构造connection放入url和info
 方法2: 使用反射动态获取Driver类对象
@@ -34,7 +34,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://ruoyi-chen.github.io">
-        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636028747634" class="site-logo">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636030371642" class="site-logo">
         <h1 class="site-title">Chen Ruoyi </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -96,7 +96,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">JDBC（1）获取数据库连接的四种方法</h2>
+            <h2 class="post-title">JDBC（1）获取数据库连接的五种方法</h2>
             <div class="post-date">2021-11-04</div>
             
               <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/this-is-cherry.png')">
@@ -104,17 +104,18 @@
             
             <div class="post-content" v-pre>
               <p><ul class="markdownIt-TOC">
-<li><a href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%96%B9%E6%B3%95">获取数据库连接的四种方法</a>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E6%B3%95">获取数据库连接的五种方法</a>
 <ul>
 <li><a href="#%E6%96%B9%E6%B3%951-diver-%E6%9E%84%E9%80%A0connection%E6%94%BE%E5%85%A5url%E5%92%8Cinfo">方法1： Diver -&gt; 构造connection放入url和info</a></li>
 <li><a href="#%E6%96%B9%E6%B3%952-%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96driver%E7%B1%BB%E5%AF%B9%E8%B1%A1">方法2: 使用反射动态获取Driver类对象</a></li>
 <li><a href="#%E6%96%B9%E6%B3%953-%E4%BD%BF%E7%94%A8drivermanager%E6%9B%BF%E6%8D%A2driver">方法3: 使用DriverManager替换Driver</a></li>
 <li><a href="#%E6%96%B9%E6%B3%954-%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%E4%B8%89%E5%8F%AF%E4%BB%A5%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A9%B1%E5%8A%A8%E4%B8%8D%E7%94%A8%E6%98%BE%E7%A4%BA%E5%9C%B0%E6%B3%A8%E5%86%8C%E9%A9%B1%E5%8A%A8%E4%BA%86">方法4: 优化方法三：可以只加载驱动，不用显示地注册驱动了。</a></li>
+<li><a href="#%E6%96%B9%E6%B3%955-final%E7%89%88%E6%9C%AC">方法5: final版本</a></li>
 </ul>
 </li>
 </ul>
 </p>
-<h1 id="获取数据库连接的四种方法">获取数据库连接的四种方法</h1>
+<h1 id="获取数据库连接的五种方法">获取数据库连接的五种方法</h1>
 <p>Note: 以下方法为了看着简介都用了throws exception，最好用try-catch包一下。</p>
 <h2 id="方法1-diver-构造connection放入url和info">方法1： Diver -&gt; 构造connection放入url和info</h2>
 <pre><code>- url在Driver的源码里面可以找到：&quot;jdbc:mysql://localhost:3306/test&quot;
@@ -133,7 +134,7 @@
         //将用户名和密码封装在Properties中
         Properties info =new Properties();
         info.setProperty(&quot;user&quot;,&quot;root&quot;);
-        info.setProperty(&quot;password&quot;,&quot;cherry123&quot;);
+        info.setProperty(&quot;password&quot;,&quot;aaa123&quot;);
 
         Connection conn = driver.connect(url, info);
 
@@ -153,7 +154,7 @@
         //3.提供链接需要的用户名和密码
         Properties info =new Properties();
         info.setProperty(&quot;user&quot;,&quot;root&quot;);
-        info.setProperty(&quot;password&quot;,&quot;cherry123&quot;);
+        info.setProperty(&quot;password&quot;,&quot;aaa123&quot;);
 
         //4.获取链接
         Connection conn = driver.connect(url, info);
@@ -169,7 +170,7 @@
         //2，提供另外三个链接的基本信息
         String url = &quot;jdbc:mysql://localhost:3306/test&quot;;
         String user = &quot;root&quot;;
-        String password = &quot;cherry123&quot;;
+        String password = &quot;aaa123&quot;;
 
         //注册驱动
         DriverManager.registerDriver(driver);
@@ -185,7 +186,7 @@
         //1，提供另外三个链接的基本信息
         String url = &quot;jdbc:mysql://localhost:3306/test&quot;;
         String user = &quot;root&quot;;
-        String password = &quot;cherry123&quot;;
+        String password = &quot;aaa123&quot;;
 
         //2。获取Driver实现类对象
         Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);
@@ -199,6 +200,38 @@
         System.out.println(conn);
     }
 }
+</code></pre>
+<h2 id="方法5-final版本">方法5: final版本</h2>
+<p>配置信息最好不要以硬定义的方式写，最好写在配置文件中，然后加载进代码中。</p>
+<ul>
+<li>配置Properties<br>
+注意：Properties里左右等号不要有空格<br>
+新建一个File：jdbc.properties</li>
+</ul>
+<pre><code class="language-java">user=root
+password=aaa123
+url=jdbc:mysql://localhost::3306/test
+driverClass=com.jdbc.cj.mysql.Driver
+</code></pre>
+<pre><code class="language-java">public void testConnection5() throws Exception {
+        //1.读取配置文件中的4个基本信息
+        InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream(&quot;jdbc.properties&quot;);
+
+        Properties pros = new Properties();
+        pros.load(is);
+
+        String user = pros.getProperty(&quot;user&quot;);
+        String password = pros.getProperty(&quot;password&quot;);
+        String url = pros.getProperty(&quot;url&quot;);
+        String driverClass = pros.getProperty(&quot;driverClass&quot;);
+
+        //2.加载驱动
+        Class.forName(driverClass);
+
+        //3.获取连接
+        Connection conn = DriverManager.getConnection(url, user, password);
+        System.out.println(conn);
+    }
 </code></pre>
 
             </div>
