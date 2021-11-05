@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ruoyi-chen.github.io</id>
     <title>Chen Ruoyi </title>
-    <updated>2021-11-05T16:38:17.750Z</updated>
+    <updated>2021-11-05T16:58:38.895Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ruoyi-chen.github.io"/>
     <link rel="self" href="https://ruoyi-chen.github.io/atom.xml"/>
@@ -19,16 +19,27 @@
         <content type="html"><![CDATA[<blockquote>
 <p>张三、李四等人是A社团成员，李四、王五等人是B社团成员，编写一个Java应用程序（要求使用集合类），输出参加A社团的人、参加B社团的人、以及同时参加两个社团的人。</p>
 </blockquote>
-<p><strong>- 程序分析：</strong><br>
-*	需要建立的类：社团类、学生类<br>
-*	学生Person类Field包括：学生姓名<br>
-*	社团Community类Field包括：社团名称、社团成员集合（ArrayList<Person>）</p>
-<p><strong>- 方法：</strong><br>
+<h1 id="程序分析">程序分析：</h1>
+<ul>
+<li>
+<p>需要建立的类：社团类、学生类</p>
+</li>
+<li>
+<p>学生Person类Field包括：学生姓名</p>
+</li>
+<li>
+<p>社团Community类Field包括：社团名称、社团成员集合（ArrayList<Person>）</p>
+</li>
+<li>
+<p>方法：<br>
 <strong>1.	输出参加某社团的人</strong><br>
 将成员加入社团，写一个add方法，加入private类型的社团对象；<br>
 展示该社团中的成员，用iterator逐个输出community集合中的对象，注意重写Person中的toString()；</p>
+</li>
+</ul>
 <p><strong>2.	输出同时参加两个社团的人</strong><br>
 需要计算两个集合中的交集，对于一个集合，遍历其中的Person，和另一个集合逐个比较，将相同的加入intersection集合中。这里要比较两个Object（Person）对象，需要重写Person中的equals()。</p>
+<h1 id="代码">代码</h1>
 <ul>
 <li>Person</li>
 </ul>
@@ -145,9 +156,7 @@ public class Community {
     }
 }
 </code></pre>
-<ul>
-<li>结果</li>
-</ul>
+<h1 id="结果">结果</h1>
 <figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636129797471.png" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>

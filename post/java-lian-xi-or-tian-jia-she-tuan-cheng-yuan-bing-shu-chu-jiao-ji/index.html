@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636130264850">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636131173033">
 <link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
 
 
@@ -21,9 +21,13 @@
     <meta name="description" content="
 张三、李四等人是A社团成员，李四、王五等人是B社团成员，编写一个Java应用程序（要求使用集合类），输出参加A社团的人、参加B社团的人、以及同时参加两个社团的人。
 
-- 程序分析：
-*	需要建立的类：社团类、学生类
-*	学生Person类..." />
+程序分析：
+
+
+需要建立的类：社团类、学生类
+
+
+学生Person类Fi..." />
     <meta name="keywords" content="Java练习" />
   </head>
   <body>
@@ -33,7 +37,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://ruoyi-chen.github.io">
-        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636130264850" class="site-logo">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636131173033" class="site-logo">
         <h1 class="site-title">Chen Ruoyi </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,16 +109,27 @@
               <blockquote>
 <p>张三、李四等人是A社团成员，李四、王五等人是B社团成员，编写一个Java应用程序（要求使用集合类），输出参加A社团的人、参加B社团的人、以及同时参加两个社团的人。</p>
 </blockquote>
-<p><strong>- 程序分析：</strong><br>
-*	需要建立的类：社团类、学生类<br>
-*	学生Person类Field包括：学生姓名<br>
-*	社团Community类Field包括：社团名称、社团成员集合（ArrayList<Person>）</p>
-<p><strong>- 方法：</strong><br>
+<h1 id="程序分析">程序分析：</h1>
+<ul>
+<li>
+<p>需要建立的类：社团类、学生类</p>
+</li>
+<li>
+<p>学生Person类Field包括：学生姓名</p>
+</li>
+<li>
+<p>社团Community类Field包括：社团名称、社团成员集合（ArrayList<Person>）</p>
+</li>
+<li>
+<p>方法：<br>
 <strong>1.	输出参加某社团的人</strong><br>
 将成员加入社团，写一个add方法，加入private类型的社团对象；<br>
 展示该社团中的成员，用iterator逐个输出community集合中的对象，注意重写Person中的toString()；</p>
+</li>
+</ul>
 <p><strong>2.	输出同时参加两个社团的人</strong><br>
 需要计算两个集合中的交集，对于一个集合，遍历其中的Person，和另一个集合逐个比较，将相同的加入intersection集合中。这里要比较两个Object（Person）对象，需要重写Person中的equals()。</p>
+<h1 id="代码">代码</h1>
 <ul>
 <li>Person</li>
 </ul>
@@ -231,9 +246,7 @@ public class Community {
     }
 }
 </code></pre>
-<ul>
-<li>结果</li>
-</ul>
+<h1 id="结果">结果</h1>
 <figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636129797471.png" alt="" loading="lazy"></figure>
 
             </div>
