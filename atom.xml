@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ruoyi-chen.github.io</id>
     <title>Chen Ruoyi </title>
-    <updated>2021-11-05T11:00:23.274Z</updated>
+    <updated>2021-11-05T11:08:59.076Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ruoyi-chen.github.io"/>
     <link rel="self" href="https://ruoyi-chen.github.io/atom.xml"/>
@@ -11,7 +11,216 @@
     <icon>https://ruoyi-chen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Chen Ruoyi </rights>
     <entry>
-        <title type="html"><![CDATA[JDBC（1）获取数据库连接的五种方法]]></title>
+        <title type="html"><![CDATA[JDBC(2) SQL语句注入[Statement/PreparedStatement]]]></title>
+        <id>https://ruoyi-chen.github.io/post/jdbc2/</id>
+        <link href="https://ruoyi-chen.github.io/post/jdbc2/">
+        </link>
+        <updated>2021-11-05T11:01:16.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="statement操作的弊端">Statement操作的弊端</h1>
+<ul>
+<li>需要拼写sql语句，并存在sql注入问题</li>
+<li>sql注入问题：利用某些系统没有对用户输入的数据进行充分的检查，而在用户输入数据中注入非法的SQL语句段或命令，从而利用系统的SQL引擎完成恶意行为的做法（比如，SELECT user, password FROM user_table WHERE user = 'a' OR = 1 =' AND password = 'OR '1' = '1'）。</li>
+<li>为了避免这一问题，我们需要用Prepared Statement（从Statement扩展而来）取代Statement</li>
+</ul>
+<pre><code class="language-java">public class StatementTest {
+    //使用Statement的弊端：需要拼写sql语句，并存在sql注入的问题
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println(&quot;username:&quot;);
+        String user = scanner.next();
+        System.out.println(&quot;password:&quot;);
+        String password = scanner.next();
+
+        String sql = &quot;SELECT user, password FROM user_table WHERE user = '&quot;+ user +&quot;' AND password = '&quot;+ password +&quot;'&quot;;
+        User returnUser = get(sql, User.class);
+        if(returnUser != null){
+            System.out.println(&quot;登录成功&quot;);
+        }
+        else{
+            System.out.println(&quot;用户名不存在或密码错误&quot;);
+        }
+    }
+
+    // 使用Statement实现对数据表的查询操作
+    public static &lt;T&gt; T get(String sql, Class&lt;T&gt; clazz) {
+        T t = null;
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            // 1.加载配置文件
+            InputStream is = StatementTest.class.getClassLoader().getResourceAsStream(&quot;jdbc.properties&quot;);
+            Properties pros = new Properties();
+            pros.load(is);
+
+            // 2.读取配置信息
+            String user = pros.getProperty(&quot;user&quot;);
+            String password = pros.getProperty(&quot;password&quot;);
+            String url = pros.getProperty(&quot;url&quot;);
+            String driverClass = pros.getProperty(&quot;driverClass&quot;);
+
+            // 3.加载驱动
+            Class.forName(driverClass);
+
+            // 4.获取连接
+            conn = DriverManager.getConnection(url, user, password);
+
+            st = conn.createStatement();
+
+            rs = st.executeQuery(sql);
+
+            // 获取结果集的元数据
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            // 获取结果集的列数
+            int columnCount = rsmd.getColumnCount();
+
+            if (rs.next()) {
+
+                t = clazz.newInstance();
+
+                for (int i = 0; i &lt; columnCount; i++) {
+                    // //1. 获取列的名称
+                    // String columnName = rsmd.getColumnName(i+1);
+
+                    // 1. 获取列的别名
+                    String columnName = rsmd.getColumnLabel(i + 1);
+
+                    // 2. 根据列名获取对应数据表中的数据
+                    Object columnVal = rs.getObject(columnName);
+
+                    // 3. 将数据表中得到的数据，封装进对象
+                    Field field = clazz.getDeclaredField(columnName);
+                    field.setAccessible(true);
+                    field.set(t, columnVal);
+                }
+                return t;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭资源
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+    }
+
+}
+</code></pre>
+<h1 id="使用preparedstatement">使用PreparedStatement</h1>
+<p>步骤：</p>
+<ul>
+<li>读取url、user、password信息，准备连接</li>
+<li>加载驱动</li>
+<li>获取连接</li>
+<li>预编译sql语句，返回PreparedStatement实例</li>
+<li>填充占位符ps.setString()</li>
+<li>执行操作：ps.execute()</li>
+<li>关闭资源：ps和connection都要关闭。</li>
+</ul>
+<pre><code class="language-java">import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
+
+public class PreparedStatementUpdateTest {
+    @Test
+    public void testInsert() {
+        Connection conn = null;
+        PreparedStatement ps = null;
+
+        try{
+
+            //1. 读取配置文件中的四个基本信息
+            InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(&quot;jdbc.properties&quot;);
+            Properties pros = new Properties();
+            pros.load(is);
+
+            String user = pros.getProperty(&quot;user&quot;);
+            String password = pros.getProperty(&quot;password&quot;);
+            String url = pros.getProperty(&quot;url&quot;);
+            String driverClass = pros.getProperty(&quot;driverClass&quot;);
+
+            //2, 加载驱动
+            Class.forName(driverClass);
+
+            //3. 获取连接
+            conn = DriverManager.getConnection(url, user, password);
+
+            //4，预编译sql语句，返回PreparedStatement的实例
+            String sql = &quot;insert into customers(name, email, birth)values(?,?,?)&quot;;
+            ps = conn.prepareStatement(sql);
+
+            //5，填充占位符
+            ps.setString(1,&quot;Cherrie&quot;);
+            ps.setString(2,&quot;chenruoyisz@gmail.com&quot;);
+            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
+            java.util.Date date = sdf.parse(&quot;2021-01-31&quot;);
+            ps.setDate(3, (java.sql.Date) new Date(date.getTime()));
+
+            //6, 执行操作
+            ps.execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            //7, 资源关闭
+            if(ps!=null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+          if(conn != null){
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+}
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JDBC(1)获取数据库连接的五种方法]]></title>
         <id>https://ruoyi-chen.github.io/post/this-is-cherry/</id>
         <link href="https://ruoyi-chen.github.io/post/this-is-cherry/">
         </link>
