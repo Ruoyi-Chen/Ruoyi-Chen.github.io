@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>🧡 Java练习 ｜练习TreeMap的Comparator、Comparable接口 | Chen Ruoyi </title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636136876866">
+<link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+有8个显示器，其属性有尺寸和价格。编写一个Java应用程序，使用TreeMap&lt;K,V&gt;，按照价格从大到小排序输出所有显示器的信息，要求通过两种方式实现：通过实现Comparator接口和通过实现Comparable接口。
+
+..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ruoyi-chen.github.io">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636136876866" class="site-logo">
+        <h1 class="site-title">Chen Ruoyi </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            Home 🏠
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            Notes 📒
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            Folder 💼
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            About 🍒
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Per Aspera Ad Astra | 循此苦旅，以达天际
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://ruoyi-chen.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">🧡 Java练习 ｜练习TreeMap的Comparator、Comparable接口</h2>
+            <div class="post-date">2021-11-06</div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>有8个显示器，其属性有尺寸和价格。编写一个Java应用程序，使用TreeMap&lt;K,V&gt;，按照价格从大到小排序输出所有显示器的信息，要求通过两种方式实现：通过实现Comparator接口和通过实现Comparable接口。</p>
+</blockquote>
+<h1 id="程序分析">程序分析</h1>
+<h2 id="treemap特性">TreeMap特性</h2>
+<ol>
+<li>TreeMap存储Key-Value 对时，需要根据key-value对进行排序。TreeMap可以保证所有的Key-Value 对处于有序状态。</li>
+<li>TreeSet底层使用红黑树结构存储数据</li>
+</ol>
+<h2 id="treemap的key的排序">TreeMap的Key的排序：</h2>
+<ul>
+<li>自然排序：TreeMap的所有的Key 必须实现Comparable接口，而且所有的Key应该是同一个类的对象，否则将会抛出ClasssCastException</li>
+<li>定制排序：创建TreeMap时，传入一个Comparator 对象，该对象负责对TreeMap中的所有key 进行排序。此时不需要Map 的Key实现Comparable 接口</li>
+<li>TreeMap判断两个key相等的标准：两个key通过compareTo()方法或者compare()方法返回0。</li>
+</ul>
+<h1 id="方法1screen实现comparable接口">方法1，Screen实现Comparable接口</h1>
+<ol>
+<li>Screen先声明fields，包括private类型的size、price，定义constructor、setter、getting、重写toString()</li>
+<li>实现Comparable接口，重写compareTo()方法。</li>
+</ol>
+<ul>
+<li>判断传入的对象是否是Screen的一个实例，如果是：</li>
+<li>取出实例中的price进行比较，大于为-1，小于为1，相等为0</li>
+<li>否则，抛出异常：数据类型不一致。</li>
+</ul>
+<pre><code class="language-java">import java.util.Scanner;
+
+public class Screen implements Comparable{
+   private int size;
+   private double price;
+
+   public Screen(int size, double price) {
+       this.size = size;
+       this.price = price;
+   }
+
+   public int getSize() {
+       return size;
+   }
+
+   public void setSize(int size) {
+       this.size = size;
+   }
+
+   public double getPrice() {
+       return price;
+   }
+
+   public void setPrice(double price) {
+       this.price = price;
+   }
+
+   @Override
+   public String toString() {
+       return &quot;Screen{&quot; +
+               &quot; size='&quot; + size + '\'' +
+               &quot;, price=&quot; + price +
+               '}';
+   }
+
+   @Override
+   public int compareTo(Object o) {
+       if(o instanceof Screen){
+           Screen screen = (Screen) o;
+           if(this.price &gt; screen.price){
+               return -1;
+           }else if (this.price &lt; screen.price){
+               return 1;
+           }else return 0;
+       }
+       throw new RuntimeException(&quot;传入的数据类型不一致！&quot;);
+   }
+}
+</code></pre>
+<ul>
+<li>测试</li>
+</ul>
+<ol>
+<li>实例化一个TreeMap inventory和八个screen</li>
+<li>将 screen放入inventory</li>
+<li>调用treemap中的entrySet，赋给Set entrySet，接着调用entrySet的interator进行迭代。</li>
+<li>在iterator中，将iterator.next强制转换为Map.Entry，然后使用.getKey(), .getValue()方法输出key和value。</li>
+</ol>
+<pre><code class="language-java">    @Test
+    public void testComparable(){
+        TreeMap inventory= new TreeMap();
+
+        Screen screen1 = new Screen(100,2111);
+        Screen screen2 = new Screen(200,2112);
+        Screen screen3 = new Screen(200,1113);
+        Screen screen4 = new Screen(100,9141);
+        Screen screen5 = new Screen(100,3151);
+        Screen screen6 = new Screen(100,3611);
+        Screen screen7 = new Screen(100,2711);
+        Screen screen8 = new Screen(100,8111);
+
+        inventory.put(screen1, screen1.getPrice());
+        inventory.put(screen2, screen2.getPrice());
+        inventory.put(screen3, screen3.getPrice());
+        inventory.put(screen4, screen4.getPrice());
+        inventory.put(screen5, screen5.getPrice());
+        inventory.put(screen6, screen6.getPrice());
+        inventory.put(screen7, screen7.getPrice());
+        inventory.put(screen8, screen8.getPrice());
+
+        Set entrySet = inventory.entrySet();
+        Iterator iterator = entrySet.iterator();
+        while (iterator.hasNext()){
+            Object obj = iterator.next();
+            Map.Entry entry = (Map.Entry) obj;
+            System.out.println(entry.getKey()+&quot;---&gt;&quot;+entry.getValue());
+        }
+    }
+</code></pre>
+<ul>
+<li>结果</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636136773556.png" alt="" loading="lazy"></figure>
+<h1 id="方法2treemap实现comparator">方法2，TreeMap实现Comparator</h1>
+<ol>
+<li>
+<p>Screen2的基本设置和Screen相同，但是不实现Comparable接口</p>
+</li>
+<li>
+<p>在创建inventory时，写入comparator<br>
+在TreeMap中new Comparator，重写其中的 compare()方法。</p>
+</li>
+</ol>
+<ul>
+<li>首先判断传入的o1，o2是否为Screen2的实例</li>
+<li>如果是，将其转型为Screen2</li>
+<li>然后调用Double.compare方法，比较两者的price</li>
+<li>否则，抛出异常：数据类型不一致。</li>
+</ul>
+<pre><code class="language-java">    @Test
+    public void testComparator(){
+        TreeMap inventory= new TreeMap(new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                if (o1 instanceof Screen2 &amp;&amp; o2 instanceof Screen2){
+                    Screen2 screen1 = (Screen2) o1;
+                    Screen2 screen2 = (Screen2) o2;
+
+                    return Double.compare(screen1.getPrice(), screen2.getPrice());
+                }
+                throw new RuntimeException(&quot;输入的类型不匹配！&quot;);
+            }
+        });
+        Screen2 screen1 = new Screen2(100,6111);
+        Screen2 screen2 = new Screen2(200,2112);
+        Screen2 screen3 = new Screen2(240,1113);
+        Screen2 screen4 = new Screen2(150,9141);
+        Screen2 screen5 = new Screen2(120,3151);
+        Screen2 screen6 = new Screen2(110,3611);
+        Screen2 screen7 = new Screen2(400,2711);
+        Screen2 screen8 = new Screen2(600,8111);
+
+        inventory.put(screen1, screen1.getPrice());
+        inventory.put(screen2, screen2.getPrice());
+        inventory.put(screen3, screen3.getPrice());
+        inventory.put(screen4, screen4.getPrice());
+        inventory.put(screen5, screen5.getPrice());
+        inventory.put(screen6, screen6.getPrice());
+        inventory.put(screen7, screen7.getPrice());
+        inventory.put(screen8, screen8.getPrice());
+
+        Set entrySet = inventory.entrySet();
+        Iterator iterator = entrySet.iterator();
+        while (iterator.hasNext()){
+            Object obj = iterator.next();
+            Map.Entry entry = (Map.Entry) obj;
+            System.out.println(entry.getKey()+&quot;---&gt;&quot;+entry.getValue());
+        }
+    }
+</code></pre>
+<ul>
+<li>结果</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://ruoyi-chen.github.io/post-images/1636136873421.png" alt="" loading="lazy"></figure>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ruoyi-chen.github.io/post/java-lian-xi-or-tian-jia-she-tuan-cheng-yuan-bing-shu-chu-jiao-ji/">
+                  <h3 class="post-title">
+                    🧡 Java练习 ｜ 添加社团成员并输出交集
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
