@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ruoyi-chen.github.io</id>
     <title>Chen Ruoyi </title>
-    <updated>2021-11-05T15:51:19.685Z</updated>
+    <updated>2021-11-05T16:31:49.290Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ruoyi-chen.github.io"/>
     <link rel="self" href="https://ruoyi-chen.github.io/atom.xml"/>
@@ -10,6 +10,147 @@
     <logo>https://ruoyi-chen.github.io/images/avatar.png</logo>
     <icon>https://ruoyi-chen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Chen Ruoyi </rights>
+    <entry>
+        <title type="html"><![CDATA[🧡 Java练习 ｜ 添加社团成员并输出交集]]></title>
+        <id>https://ruoyi-chen.github.io/post/java-lian-xi-or-tian-jia-she-tuan-cheng-yuan-bing-shu-chu-jiao-ji/</id>
+        <link href="https://ruoyi-chen.github.io/post/java-lian-xi-or-tian-jia-she-tuan-cheng-yuan-bing-shu-chu-jiao-ji/">
+        </link>
+        <updated>2021-11-05T16:17:15.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>张三、李四等人是A社团成员，李四、王五等人是B社团成员，编写一个Java应用程序（要求使用集合类），输出参加A社团的人、参加B社团的人、以及同时参加两个社团的人。</p>
+</blockquote>
+<p><strong>- 程序分析：</strong><br>
+*	需要建立的类：社团类、学生类<br>
+*	学生Person类Field包括：学生姓名<br>
+*	社团Community类Field包括：社团名称、社团成员集合（ArrayList<Person>）</p>
+<p><strong>- 方法：</strong><br>
+<strong>1.	输出参加某社团的人</strong><br>
+将成员加入社团，写一个add方法，加入private类型的社团对象；<br>
+展示该社团中的成员，用iterator逐个输出community集合中的对象，注意重写Person中的toString()；</p>
+<p><strong>2.	输出同时参加两个社团的人</strong><br>
+需要计算两个集合中的交集，对于一个集合，遍历其中的Person，和另一个集合逐个比较，将相同的加入intersection集合中。这里要比较两个Object（Person）对象，需要重写Person中的equals()。</p>
+<ul>
+<li>Person</li>
+</ul>
+<pre><code class="language-java">public class Person {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return &quot;Person{&quot; +
+                &quot;name='&quot; + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+}
+</code></pre>
+<ul>
+<li>Community</li>
+</ul>
+<pre><code class="language-java">import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Community {
+    private String name;
+    private ArrayList&lt;Person&gt; community = new ArrayList&lt;Person&gt;();
+
+    public Community(String name) {
+        this.name = name;
+    }
+
+    public ArrayList&lt;Person&gt; getCommunity() {
+        return community;
+    }
+
+    public void add(Person person) {
+        community.add(person);
+    }
+
+    public void show() {
+        System.out.println(&quot;参加社团&quot;+name+&quot;的学生：&quot;);
+        Iterator iterator = community.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    public ArrayList&lt;Person&gt; intersect(Community another){
+        ArrayList&lt;Person&gt; intersection = new ArrayList&lt;&gt;();
+        for (int i = 0; i &lt; community.size(); i++){
+            for (int j = 0; j &lt; another.getCommunity().size(); j++){
+                if(community.get(i).equals(another.getCommunity().get(j))){
+                       intersection.add(community.get(i));
+                }
+            }
+        }
+        return intersection;
+    }
+
+    public void showIntersection(Community another){
+        System.out.println(&quot;参加这两个社团的学生：&quot;);
+        ArrayList&lt;Person&gt; intersection = intersect(another);
+        Iterator iterator = intersection.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>Test</li>
+</ul>
+<pre><code>public class CommunityTest {
+    public static void main(String[] args) throws Exception {
+        Community communityA = new Community(&quot;社团A&quot;);
+        Community communityB = new Community(&quot;社团B&quot;);
+
+        Person zhangSan = new Person(&quot;Zhang San&quot;);
+        Person liSi = new Person(&quot;Li Si&quot;);
+        Person wangWu = new Person(&quot;Wang Wu&quot;);
+
+        communityA.add(zhangSan);
+        communityA.add(liSi);
+        communityB.add(liSi);
+        communityB.add(wangWu);
+
+        communityA.show();
+        communityB.show();
+
+        communityA.showIntersection(communityB);
+
+    }
+}
+</code></pre>
+<ul>
+<li>结果</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636129797471.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[🖤 LeetCode Daily｜初级算法(1)-两数之和【easy】]]></title>
         <id>https://ruoyi-chen.github.io/post/leetcode-mei-ri-yi-ti-1-chu-ji-suan-fa-liang-shu-zhi-he-easy/</id>
