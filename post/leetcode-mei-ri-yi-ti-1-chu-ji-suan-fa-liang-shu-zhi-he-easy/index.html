@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>LeetCode我的每日一题(1)-初级算法-两数之和【easy】 | Chen Ruoyi </title>
+<title>🖤 LeetCode Daily｜初级算法(1)-两数之和【easy】 | Chen Ruoyi </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636122502371">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636123062184">
 <link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
 
 
@@ -18,14 +18,10 @@
 
 
 
-    <meta name="description" content="
-两数之和
-
-
-两数之和
+    <meta name="description" content="两数之和
 
 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
-你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答..." />
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现..." />
     <meta name="keywords" content="LeetCode" />
   </head>
   <body>
@@ -35,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://ruoyi-chen.github.io">
-        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636122502371" class="site-logo">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636123062184" class="site-logo">
         <h1 class="site-title">Chen Ruoyi </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -97,25 +93,20 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">LeetCode我的每日一题(1)-初级算法-两数之和【easy】</h2>
+            <h2 class="post-title">🖤 LeetCode Daily｜初级算法(1)-两数之和【easy】</h2>
             <div class="post-date">2021-11-05</div>
             
               <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/leetcode-mei-ri-yi-ti-1-chu-ji-suan-fa-liang-shu-zhi-he-easy.jpeg')">
               </div>
             
             <div class="post-content" v-pre>
-              <p><ul class="markdownIt-TOC">
-<li><a href="#%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C">两数之和</a></li>
-</ul>
-</p>
-<h1 id="两数之和">两数之和</h1>
+              <h1 id="两数之和">两数之和</h1>
 <blockquote>
 <p>给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。</p>
 <p>你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。</p>
 <p>你可以按任意顺序返回答案。</p>
 </blockquote>
-<p>链接：https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/x2jrse/</p>
-<p>![截屏2021-11-05 下午10.13.01](/Users/cherriechenieth/Library/Application Support/typora-user-images/截屏2021-11-05 下午10.13.01.png)</p>
+<p>链接：<a href="https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/x2jrse/">原题链接</a></p>
 <ul>
 <li>用HashMap或双指针做。</li>
 <li>思路是：如果能找到与一个数相加得target的数，那就把这个数（key）的value返回，否则把这个数放入HashMap中。</li>
@@ -133,13 +124,20 @@
     }
 }
 </code></pre>
-<pre><code>Bug1：
-</code></pre>
-<p>一开始想用二分查找来找（target - nums[i]），但是这就要求一开始要排序。<br>
-题目要求输出的是索引位置，用这种思路的话就要新建一个数组放进去。而Java中将一个数组赋给另一个数组是引用形式赋过去的，所以原数组顺序变了新的数组顺序也会变。重新用一个for循环赋进去又很麻烦，要再一次找index，而且还要一次顺序找index一次逆序找index（比如[3,3]，6，要得到的是[0,1]，只用顺序查找的话就会输出[0,0]）<br>
-Bug2:<br>
+<ul>
+<li>
+<p>Bug1：<br>
+一开始想用二分查找来找（target - nums[i]），但是这就要求一开始要排序。<br>
+题目要求输出的是索引位置，用这种思路的话就要新建一个数组放进去。而Java中将一个数组赋给另一个数组是引用形式赋过去的，所以原数组顺序变了新的数组顺序也会变。重新用一个for循环赋进去又很麻烦，要再一次找index，而且还要一次顺序找index一次逆序找index（比如[3,3]，6，要得到的是[0,1]，只用顺序查找的话就会输出[0,0]）</p>
+</li>
+<li>
+<p>Bug2:<br>
 小聪明想着那我从比target小的数开始找好了，可以少找一些。但没考虑到测试数组中存在[-3,1,4]这种情况，如果target==1，就会出错了，还是不可避免要全部遍历一次。</p>
-<p>🎉“微习惯”养成记：Start From Little。就从每天至少一道LeetCode开始吧！（今天写了三道，但是这道比较有记录的意义啦～加油！）<br>
+</li>
+</ul>
+<hr>
+<p>🎉“微习惯”养成记：Start From Little。就从每天至少一道LeetCode开始吧！<br>
+（今天写了三道，但是这道比较有记录的意义啦～加油！）<br>
 日期：2021/11/05</p>
 
             </div>
@@ -157,7 +155,7 @@ Bug2:<br>
                 <div class="next">下一篇</div>
                 <a href="https://ruoyi-chen.github.io/post/jdbc2/">
                   <h3 class="post-title">
-                    JDBC(2) SQL语句注入[Statement/PreparedStatement]
+                    💙 JDBC(2)｜ SQL语句注入-Statement/PreparedStatement
                   </h3>
                 </a>
               </div>
