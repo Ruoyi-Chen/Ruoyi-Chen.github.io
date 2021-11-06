@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>🖤 LeetCode Daily｜初级算法(2)-数独有效性验证【medium】 | Chen Ruoyi </title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636208709554">
+<link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。
+数字 1-9 在每一行只能出现一次。
+数字 1-9 在每一列只能出现一次。
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（..." />
+    <meta name="keywords" content="LeetCode" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ruoyi-chen.github.io">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636208709554" class="site-logo">
+        <h1 class="site-title">Chen Ruoyi </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            Home 🏠
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            Notes 📒
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            Folder 💼
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            About 🍒
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Per Aspera Ad Astra | 循此苦旅，以达天际
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://ruoyi-chen.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">🖤 LeetCode Daily｜初级算法(2)-数独有效性验证【medium】</h2>
+            <div class="post-date">2021-11-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/leetcode-dailyorchu-ji-suan-fa-2-shu-du-you-xiao-xing-yan-zheng-medium.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>请你判断一个 9x9 的数独是否有效。只需要 根据以下规则 ，验证已经填入的数字是否有效即可。<br>
+数字 1-9 在每一行只能出现一次。<br>
+数字 1-9 在每一列只能出现一次。<br>
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）<br>
+数独部分空格内已填入了数字，空白格用 '.' 表示。</p>
+</blockquote>
+<p>注意：<br>
+一个有效的数独（部分已被填充）不一定是可解的。<br>
+只需要根据以上规则，验证已经填入的数字是否有效即可。</p>
+<p>链接：<a href="https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/x2f9gg/">原题链接</a></p>
+<p>思考：<br>
+输入的是二维数组，</p>
+<ul>
+<li>取出第一行，遍历a[1][i]; 取出第一列，如果不是&quot;.&quot;，将其添加进HashMap，如果已存在这个数，返回无效；</li>
+<li>同理遍历a[j][1]。</li>
+<li>遍历小格子，一共九个(3 x 3)，
+<ul>
+<li>第1个小格子(0, 0)包括a[0][0-2],a[1][0-2],a[2][0-2];</li>
+<li>第二个小格子(0, 1) 包括a[0][0+3j, 1 + 3j, 2 + 3j],a[1][0+3j, 1 + 3j, 2 + 3j],a[2][0+3j, 1 + 3j, 2 + 3j]; ，j=1</li>
+<li>以此类推，第（i，j）个格子包括a[0+3i, 1 + 3i, 2 + 3i][0+3j, 1 + 3j, 2 + 3j]，对每一个格子，进行一遍1-9出现一次判断。</li>
+</ul>
+</li>
+<li>由于1-9出现一次判断在每一步都会出现，单独写成函数。</li>
+</ul>
+<p>最朴素的想法：<br>
+行、列、小格子各遍历一次（复杂度很高、用了不合适的HashMap）：</p>
+<pre><code class="language-java">import org.junit.Test;
+
+import java.util.HashMap;
+
+public class SudokoTest {
+        public boolean isValidSudoku(char[][] board) {
+
+            char blank = '.';
+            //行判断
+            for(int i = 0; i &lt; 9; i++){
+                HashMap map = new HashMap();
+                for(int j = 0; j &lt; 9; j++){
+                    System.out.print(board[i][j]);
+                    if (board[i][j] != blank){
+                        if (map.get(board[i][j]) != null){
+                            return false;
+                        }
+                    }
+                    map.put(board[i][j],1);
+                }
+            }
+            System.out.println(&quot;Here1&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);
+            //列判断
+            for(int i = 0; i &lt; 9; i++){
+                HashMap map = new HashMap();
+                for(int j = 0; j &lt; 9; j++){
+                    System.out.print(board[j][i]);
+                    if (board[j][i] != blank){
+                        if (map.get(board[j][i]) != null){
+                            return false;
+                        }
+                    }
+                    map.put(board[j][i],1);
+                }
+            }
+
+            System.out.println(&quot;Here2&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;);
+            //小格子判断
+
+            for(int u = 0; u &lt; 3; u++){
+                for (int v = 0; v &lt; 3; v++) {
+                    //第u，v个格子
+                    HashMap map3 = new HashMap();
+
+                    for(int i = 0+3*u; i &lt; 3+3*u; i++){
+                        for(int j = 0+3*v; j &lt; 3+3*v; j++){
+                            if (board[i][j] != blank){
+                                if (map3.get(board[i][j]) != null){
+                                    return false;
+                                }
+                                    map3.put(board[i][j],1);
+                            }
+
+                        }
+                    }
+                    System.out.println(&quot;Another&lt;&lt;&lt;&quot;);
+                }
+                System.out.println(&quot;next line&lt;&lt;&lt;&quot;);
+            }
+
+            System.out.println(&quot;Here&quot;);
+            return true;
+        }
+
+        @Test
+        public void test(){
+            char[][] testChar = new char[][]{{'5', '3', '7', '.', '.', '.', '.', '.', '.'},
+                    {'1', '.', '.', '.', '.', '.', '.', '.', '.'},
+                    {'.', '9', '8', '.', '.', '.', '.', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '1', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '.', '.', '.'},
+                    {'.', '.', '.', '.', '.', '.', '.', '9', '4'}};
+
+            System.out.println(isValidSudoku(testChar));
+        }
+    }
+</code></pre>
+<p>显然这种方法的时间复杂度和空间复杂度都很高，因为每次都要new一个HashMap，要分三次update，不可取。<br>
+首先考虑遍历一次记录下三个目标的方法：<br>
+建立三个数组：</p>
+<ul>
+<li>row[i][num]:表示i行的num的数量</li>
+<li>col[j][num]:表示j行的num的数量</li>
+<li>box[j/3 + i/3<em>3]：表示第j/3 + i/3</em>3个小格子中的num的数量</li>
+</ul>
+<blockquote>
+<p>WHY j/3 + i/3<em>3？<br>
+j/3表示第j/3分列的格子<br>
+i/3表示第i/3分行的格子<br>
+满3个要往下移三行，故</em>3</p>
+</blockquote>
+<pre><code class="language-java">class Solution {
+    public boolean isValidSudoku(char[][] board) {
+            int[][] row = new int[9][10];
+            int[][] col = new int[9][10];
+            int[][] box = new int[9][10];
+
+            for(int i = 0; i &lt; 9; i++){
+                for(int j = 0; j &lt; 9; j++){
+                    if(board[i][j] == '.'){
+                        continue;
+                    }
+
+                    int num = board[i][j] - '1';
+
+                    if(row[i][num] == 1){
+                        return false;
+                    }
+
+                    if(col[j][num] == 1){
+                        return false;
+                    }
+                    
+                    if(box[j/3 + i/3 * 3][num] == 1){
+                        return false;
+                    }
+                    row[i][num] = 1;
+                    col[j][num] = 1;
+                    box[j/3 + i/3 * 3][num] = 1;
+                }
+            }
+            return true;
+    }
+}
+</code></pre>
+<hr>
+<p>总结：</p>
+<ul>
+<li>难点在于如何判断是第几个分块：j/3 + i/3 * 下移的行数。</li>
+<li>数字少且确定时用数组就可以了，不用HashMap。本题中由两个值确定key的情况，不适合用HashMap。</li>
+<li>选择数据结构的时候不要被限制住了。</li>
+</ul>
+<p>时间：2021/11/06</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://ruoyi-chen.github.io/tag/9qoM6B42Q/" class="tag">
+                    LeetCode
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ruoyi-chen.github.io/post/java-lian-xi-orlian-xi-treemap-de-comparatorcomparable-jie-kou/">
+                  <h3 class="post-title">
+                    🧡 Java练习 ｜练习TreeMap的Comparator、Comparable接口
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
