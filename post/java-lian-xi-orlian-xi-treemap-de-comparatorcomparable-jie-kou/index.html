@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636136876866">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636195003616">
 <link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
 
 
@@ -31,7 +31,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://ruoyi-chen.github.io">
-        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636136876866" class="site-logo">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636195003616" class="site-logo">
         <h1 class="site-title">Chen Ruoyi </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -95,6 +95,9 @@
           <div class="post-detail">
             <h2 class="post-title">🧡 Java练习 ｜练习TreeMap的Comparator、Comparable接口</h2>
             <div class="post-date">2021-11-06</div>
+            
+              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/java-lian-xi-orlian-xi-treemap-de-comparatorcomparable-jie-kou.png')">
+              </div>
             
             <div class="post-content" v-pre>
               <blockquote>
@@ -240,7 +243,7 @@ public class Screen implements Comparable{
                     Screen2 screen1 = (Screen2) o1;
                     Screen2 screen2 = (Screen2) o2;
 
-                    return Double.compare(screen1.getPrice(), screen2.getPrice());
+                    return -Double.compare(screen1.getPrice(), screen2.getPrice());
                 }
                 throw new RuntimeException(&quot;输入的类型不匹配！&quot;);
             }
@@ -273,9 +276,9 @@ public class Screen implements Comparable{
     }
 </code></pre>
 <ul>
-<li>结果</li>
+<li>结果<br>
+<img src="https://ruoyi-chen.github.io/post-images/1636182348217.png" alt="" loading="lazy"></li>
 </ul>
-<figure data-type="image" tabindex="2"><img src="https://ruoyi-chen.github.io/post-images/1636136873421.png" alt="" loading="lazy"></figure>
 
             </div>
             
