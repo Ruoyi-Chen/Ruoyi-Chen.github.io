@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636209270945">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1636210641035">
 <link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
 
 
@@ -32,7 +32,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://ruoyi-chen.github.io">
-        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636209270945" class="site-logo">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1636210641035" class="site-logo">
         <h1 class="site-title">Chen Ruoyi </h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -112,8 +112,14 @@
 一个有效的数独（部分已被填充）不一定是可解的。<br>
 只需要根据以上规则，验证已经填入的数字是否有效即可。</p>
 <p>链接：<a href="https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/x2f9gg/">原题链接</a></p>
-<p>思考：<br>
-输入的是二维数组，</p>
+<p><ul class="markdownIt-TOC">
+<li><a href="#%E6%9C%80%E6%9C%B4%E7%B4%A0%E7%9A%84%E6%83%B3%E6%B3%95%E8%BF%87%E4%BA%8E%E6%9A%B4%E5%8A%9B%E4%BA%86">最朴素的想法【过于暴力了】</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E5%90%8E">优化后</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</p>
+<h1 id="最朴素的想法过于暴力了">最朴素的想法【过于暴力了】</h1>
+<p>输入的是二维数组，</p>
 <ul>
 <li>取出第一行，遍历a[1][i]; 取出第一列，如果不是&quot;.&quot;，将其添加进HashMap，如果已存在这个数，返回无效；</li>
 <li>同理遍历a[j][1]。</li>
@@ -124,10 +130,9 @@
 <li>以此类推，第（i，j）个格子包括a[0+3i, 1 + 3i, 2 + 3i][0+3j, 1 + 3j, 2 + 3j]，对每一个格子，进行一遍1-9出现一次判断。</li>
 </ul>
 </li>
-<li>由于1-9出现一次判断在每一步都会出现，单独写成函数。</li>
+<li>由于1-9出现一次判断在每一步都会出现，单独写成函数。<br>
+行、列、小格子各遍历一次（复杂度很高、用了不合适的HashMap）：</li>
 </ul>
-<p>最朴素的想法：<br>
-行、列、小格子各遍历一次（复杂度很高、用了不合适的HashMap）：</p>
 <pre><code class="language-java">import org.junit.Test;
 
 import java.util.HashMap;
@@ -208,19 +213,20 @@ public class SudokoTest {
         }
     }
 </code></pre>
+<h1 id="优化后">优化后</h1>
 <p>显然这种方法的时间复杂度和空间复杂度都很高，因为每次都要new一个HashMap，要分三次update，不可取。<br>
 首先考虑遍历一次记录下三个目标的方法：<br>
 建立三个数组：</p>
 <ul>
 <li>row[i][num]:表示i行的num的数量</li>
 <li>col[j][num]:表示j行的num的数量</li>
-<li>box[j/3 + i/3<em>3]：表示第j/3 + i/3</em>3个小格子中的num的数量</li>
+<li>box[j/3 + i/3*3]：表示第j/3 + i/3*3个小格子中的num的数量</li>
 </ul>
 <blockquote>
-<p>WHY j/3 + i/3<em>3？<br>
+<p>WHY j/3 + i/3 * 3？<br>
 j/3表示第j/3分列的格子<br>
 i/3表示第i/3分行的格子<br>
-满3个要往下移三行，故</em>3</p>
+满3个要往下移三行，故*3</p>
 </blockquote>
 <pre><code class="language-java">class Solution {
     public boolean isValidSudoku(char[][] board) {
@@ -257,7 +263,7 @@ i/3表示第i/3分行的格子<br>
 }
 </code></pre>
 <hr>
-<p>总结：</p>
+<h1 id="总结">总结</h1>
 <ul>
 <li>难点在于如何判断是第几个分块：j/3 + i/3 * 下移的行数。</li>
 <li>数字少且确定时用数组就可以了，不用HashMap。本题中由两个值确定key的情况，不适合用HashMap。</li>
