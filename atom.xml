@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ruoyi-chen.github.io</id>
     <title>Chen Ruoyi </title>
-    <updated>2021-11-06T15:07:15.734Z</updated>
+    <updated>2021-11-07T06:07:44.675Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ruoyi-chen.github.io"/>
     <link rel="self" href="https://ruoyi-chen.github.io/atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://ruoyi-chen.github.io/images/avatar.png</logo>
     <icon>https://ruoyi-chen.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Chen Ruoyi </rights>
+    <entry>
+        <title type="html"><![CDATA[🖤 LeetCode Daily｜初级算法(3)-原地旋转图像【medium】]]></title>
+        <id>https://ruoyi-chen.github.io/post/leetcode-dailyorchu-ji-suan-fa-3-yuan-di-xuan-zhuan-tu-xiang-medium/</id>
+        <link href="https://ruoyi-chen.github.io/post/leetcode-dailyorchu-ji-suan-fa-3-yuan-di-xuan-zhuan-tu-xiang-medium/">
+        </link>
+        <updated>2021-11-07T05:07:31.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。<br>
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636261718587.png" alt="" loading="lazy"></figure>
+<p>链接：<a href="https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnhhkv/">原题连接</a></p>
+<h1 id="思路-1">思路 1</h1>
+<figure data-type="image" tabindex="2"><img src="https://ruoyi-chen.github.io/post-images/1636261841044.png" alt="" loading="lazy"></figure>
+<ol>
+<li>先把每一行都翻转：对于每一行，头尾调换，直到中位数i=len/2</li>
+<li>对角线对换：第一行和第四列的对换，第二行和第三列的对换。如图，第一行在（1，3）对换停止，第二行在（2，2）对换停止，也就是另一条对角线上的不用变。</li>
+</ol>
+<pre><code class="language-java">class Solution {
+        public void rotate(int[][] matrix) {
+        int len = matrix[0].length;
+
+        // 每行翻转
+        for (int i = 0; i &lt; len; i++) {
+            for (int j = 0; j &lt; len/2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][len-1-j];
+                matrix[i][len-1-j] = temp;
+            }
+        }
+
+        // 对角线对换
+        for (int i = 0; i &lt; len; i++) {
+            int j = len-1-i;
+            for (int u = 0; u &lt; len-i; u++) {
+                int temp = matrix[i][u];
+                matrix[i][u] = matrix[len-1-u][j];
+                matrix[len-1-u][j] = temp;
+            }
+
+        }
+    }
+}
+</code></pre>
+<h1 id="总结">总结</h1>
+<p>哇！完全靠自己想出来的最优解～超过100%，好开心！！❤️<br>
+加油加油 不灰心不放弃 我行我会我可以！！</p>
+<p>时间：2021/11/07</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[❤️ GRE总结]]></title>
         <id>https://ruoyi-chen.github.io/post/gre-zong-jie/</id>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | Chen Ruoyi </title>
+<title>🖤 LeetCode Daily｜初级算法(3)-原地旋转图像【medium】 | Chen Ruoyi </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -25,12 +25,15 @@
 
 
     <meta name="description" content="
-Welcome to Cherrie's Blog!
+给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
 
-🏠 About
-My space for saving thoughts.
-用于记笔记和生活的小网站～
-To share my life, my thoughts, my note..." />
+
+链接：原题连接
+思路 1
+
+
+先把每一..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -102,27 +105,64 @@ To share my life, my thoughts, my note..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">关于</h2>
-            <div class="post-date">2019-01-25</div>
-            
-              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/about.png')">
-              </div>
+            <h2 class="post-title">🖤 LeetCode Daily｜初级算法(3)-原地旋转图像【medium】</h2>
+            <div class="post-date">2021-11-07</div>
             
             <div class="post-content" v-pre>
               <blockquote>
-<p>Welcome to Cherrie's Blog!</p>
+<p>给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。<br>
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。</p>
 </blockquote>
-<h2 id="about">🏠 About</h2>
-<p>My space for saving thoughts.<br>
-用于记笔记和生活的小网站～<br>
-To share my life, my thoughts, my notes.</p>
-<h2 id="who-am-i">👨‍💻 Who am I</h2>
-<p>Cherrie Chen | 陈若仪 🍒</p>
-<h2 id="contact">📬 Contact</h2>
-<p>Email: chenruoyisz@gmail.com</p>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636261718587.png" alt="" loading="lazy"></figure>
+<p>链接：<a href="https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnhhkv/">原题连接</a></p>
+<h1 id="思路-1">思路 1</h1>
+<figure data-type="image" tabindex="2"><img src="https://ruoyi-chen.github.io/post-images/1636261841044.png" alt="" loading="lazy"></figure>
+<ol>
+<li>先把每一行都翻转：对于每一行，头尾调换，直到中位数i=len/2</li>
+<li>对角线对换：第一行和第四列的对换，第二行和第三列的对换。如图，第一行在（1，3）对换停止，第二行在（2，2）对换停止，也就是另一条对角线上的不用变。</li>
+</ol>
+<pre><code class="language-java">class Solution {
+        public void rotate(int[][] matrix) {
+        int len = matrix[0].length;
+
+        // 每行翻转
+        for (int i = 0; i &lt; len; i++) {
+            for (int j = 0; j &lt; len/2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][len-1-j];
+                matrix[i][len-1-j] = temp;
+            }
+        }
+
+        // 对角线对换
+        for (int i = 0; i &lt; len; i++) {
+            int j = len-1-i;
+            for (int u = 0; u &lt; len-i; u++) {
+                int temp = matrix[i][u];
+                matrix[i][u] = matrix[len-1-u][j];
+                matrix[len-1-u][j] = temp;
+            }
+
+        }
+    }
+}
+</code></pre>
+<h1 id="总结">总结</h1>
+<p>哇！完全靠自己想出来的最优解～超过100%，好开心！！❤️<br>
+加油加油 不灰心不放弃 我行我会我可以！！</p>
+<p>时间：2021/11/07</p>
 
             </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ruoyi-chen.github.io/post/gre-zong-jie/">
+                  <h3 class="post-title">
+                    ❤️ GRE总结
+                  </h3>
+                </a>
+              </div>
             
 
             
