@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | Chen Ruoyi </title>
+<title>💙 JDBC(3)｜ 使用PreparedStatement实现CRUD操作 | Chen Ruoyi </title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -24,13 +24,11 @@
 
 
 
-    <meta name="description" content="
-Welcome to Cherrie's Blog!
+    <meta name="description" content="3.1 操作和访问数据库
+数据库连接被用于向数据库服务器发送命令和 SQL 语句，并接受数据库服务器返回的结果。其实一个数据库连接就是一个Socket连接。
+在 java.sql 包中有 3 个接口分别定义了对数据库的调用的不同方式:
 
-🏠 About
-My space for saving thoughts.
-用于记笔记和生活的小网站～
-To share my life, my thoughts, my note..." />
+S..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -102,27 +100,35 @@ To share my life, my thoughts, my note..." />
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">关于</h2>
-            <div class="post-date">2019-01-25</div>
+            <h2 class="post-title">💙 JDBC(3)｜ 使用PreparedStatement实现CRUD操作</h2>
+            <div class="post-date">2021-11-10</div>
             
-              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/about.png')">
+              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/jdbc3or-shi-yong-preparedstatement-shi-xian-crud-cao-zuo.png')">
               </div>
             
             <div class="post-content" v-pre>
-              <blockquote>
-<p>Welcome to Cherrie's Blog!</p>
-</blockquote>
-<h2 id="about">🏠 About</h2>
-<p>My space for saving thoughts.<br>
-用于记笔记和生活的小网站～<br>
-To share my life, my thoughts, my notes.</p>
-<h2 id="who-am-i">👨‍💻 Who am I</h2>
-<p>Cherrie Chen | 陈若仪 🍒</p>
-<h2 id="contact">📬 Contact</h2>
-<p>Email: chenruoyisz@gmail.com</p>
+              <h1 id="31-操作和访问数据库">3.1 操作和访问数据库</h1>
+<p>数据库连接被用于向数据库服务器发送命令和 SQL 语句，并接受数据库服务器返回的结果。其实一个数据库连接就是一个<strong>Socket</strong>连接。<br>
+在 java.sql 包中有 3 个接口分别定义了对数据库的调用的不同方式:</p>
+<ul>
+<li>Statement:用于执行<strong>静态 SQL 语句</strong>并返回它所生成结果的对象。</li>
+<li>PrepatedStatement:SQL 语句被<strong>预编译</strong>并存储在此对象中，可以使用此对象多次高效地执行该语句。</li>
+<li>CallableStatement:用于执行 SQL <strong>存储</strong>过程</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1636555005994.png" alt="" loading="lazy"></figure>
+<h1 id="32">3.2</h1>
 
             </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ruoyi-chen.github.io/post/leetcode-dailyorchu-ji-suan-fa-3-yuan-di-xuan-zhuan-tu-xiang-medium/">
+                  <h3 class="post-title">
+                    🖤 LeetCode Daily｜初级算法(3)-原地旋转图像【medium】
+                  </h3>
+                </a>
+              </div>
             
 
             

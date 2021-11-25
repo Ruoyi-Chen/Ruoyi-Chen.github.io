@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>🖤 LeetCode｜链表题总结 | Chen Ruoyi </title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://ruoyi-chen.github.io/favicon.ico?v=1637805184192">
+<link rel="stylesheet" href="https://ruoyi-chen.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+链表题一开始做有点晕，出现了改掉指针破坏了原链表但是还继续用的bug（比如：回文链表识别，原来的想法是先反转，再一个一个比较，但是忘记了反转完链表就变了呀，这个时候head就是尾巴了，没有next；除非再新建一个链表，把原始列表复制过去，..." />
+    <meta name="keywords" content="LeetCode" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://ruoyi-chen.github.io">
+        <img src="https://ruoyi-chen.github.io/images/avatar.png?v=1637805184192" class="site-logo">
+        <h1 class="site-title">Chen Ruoyi </h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            Home 🏠
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            Notes 📒
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            Folder 💼
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            About 🍒
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      Per Aspera Ad Astra | 循此苦旅，以达天际
+    </div>
+    <div class="site-footer">
+       | <a class="rss" href="https://ruoyi-chen.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">🖤 LeetCode｜链表题总结</h2>
+            <div class="post-date">2021-11-25</div>
+            
+              <div class="feature-container" style="background-image: url('https://ruoyi-chen.github.io/post-images/orlian-biao-ti-zong-jie.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <blockquote>
+<p>链表题一开始做有点晕，出现了改掉指针破坏了原链表但是还继续用的bug（比如：回文链表识别，原来的想法是先反转，再一个一个比较，但是忘记了反转完链表就变了呀，这个时候head就是尾巴了，没有next；除非再新建一个链表，把原始列表复制过去，空间复杂度O(n)）。<br>
+有一些很巧妙的做法，最常用的是快慢指针和递归。<br>
+<ul class="markdownIt-TOC">
+<li><a href="#1-%E7%AE%80%E5%8D%95%E6%93%8D%E4%BD%9C%E6%96%B0%E5%A2%9E%E5%88%A0%E9%99%A4">1 简单操作：新增，删除</a></li>
+<li><a href="#2-%E5%89%8D%E5%90%8E%E5%89%8D%E4%B8%AD%E5%90%8E%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88">2 前后/前中后/快慢指针</a>
+<ul>
+<li><a href="#21-%E5%89%8D%E5%90%8E%E6%8C%87%E9%92%88%E5%88%A0%E9%99%A4%E5%80%92%E6%95%B0%E7%AC%ACn%E4%B8%AA%E8%8A%82%E7%82%B9">2.1 前后指针：删除倒数第N个节点</a></li>
+<li><a href="#22-%E5%89%8D%E4%B8%AD%E5%90%8E%E6%8C%87%E9%92%88%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8">2.2 前中后指针：反转链表</a></li>
+<li><a href="#23-%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8">2.3 快慢指针：回文链表</a></li>
+<li><a href="#24-%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8">2.4 快慢指针：环形链表</a></li>
+</ul>
+</li>
+<li><a href="#3-%E9%80%92%E5%BD%92">3 递归</a>
+<ul>
+<li><a href="#%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8">反转链表</a></li>
+</ul>
+</li>
+</ul>
+</p>
+</blockquote>
+<h1 id="1-简单操作新增删除">1 简单操作：新增，删除</h1>
+<ul>
+<li>新增：C插入A B -&gt; C的下一个指向B C.next = B -&gt; A的下一个指向C</li>
+<li>删除：A B C D删掉B，直接把A的下一个指向C就可以了。但是！我们识别到B的时候就不能看到A了（因为单链表是A-&gt;B-&gt;C，不能反向读），所以，我们需要找个替身，把当前的B“伪装”成C（属性值赋为C的属性），然后B-&gt;D，相当于删掉了B，实际上是删掉了C地址上的那个node。<br>
+都需要用一个while(A.next!=null){}走一遍，因为链表不像数组一样可以indexing。</li>
+</ul>
+<pre><code class="language-java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+</code></pre>
+<h1 id="2-前后前中后快慢指针">2 前后/前中后/快慢指针</h1>
+<blockquote>
+<p>前后指针指的是一个走在前一个走在后，快慢指针指的是一个一次走一步，一个一次走两步（多步）。</p>
+</blockquote>
+<h2 id="21-前后指针删除倒数第n个节点">2.1 前后指针：删除倒数第N个节点</h2>
+<p>怎么找到倒数第N个呢？--&gt;用快慢指针。<br>
+<img src="https://ruoyi-chen.github.io/post-images/1637801820755.png" alt="" loading="lazy"><br>
+要找到倒数第二个节点，那么快指针比慢指针先走两步，当快指针走到尾（null）时，慢指针就走到倒数第二个。</p>
+<p>另外，在对链表进行操作时，一种常用的技巧是添加一个哑节点（dummy node），它的 next指针指向链表的头节点。这样一来，我们就不需要对头节点进行特殊的判断了。</p>
+<figure data-type="image" tabindex="1"><img src="https://ruoyi-chen.github.io/post-images/1637802031837.png" alt="" loading="lazy"></figure>
+<pre><code class="language-java">class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode first = head;
+        ListNode second = dummy;
+        for (int i = 0; i &lt; n; ++i) {
+            first = first.next;
+        }
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        ListNode ans = dummy.next;
+        return ans;
+    }
+}
+</code></pre>
+<h2 id="22-前中后指针反转链表">2.2 前中后指针：反转链表</h2>
+<p>给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。<br>
+提示：<br>
+链表中节点的数目范围是 [0, 5000]<br>
+-5000 &lt;= Node.val &lt;= 5000</p>
+<p>链接：https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnnhm6/</p>
+<figure data-type="image" tabindex="2"><img src="https://ruoyi-chen.github.io/post-images/1637802324478.png" alt="" loading="lazy"></figure>
+<p>A -&gt; B -&gt; C -&gt; D<br>
+从B开始，先存储前一个节点C（不然的话，断开了指针就找不到C了），指针给到A，A &lt;- B -&gt; C -&gt; D。以此类推。</p>
+<pre><code class="language-java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode cur = head;
+
+        while(cur != null){
+            ListNode temp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = temp;
+        }
+        return prev;
+
+    }
+}
+</code></pre>
+<h2 id="23-快慢指针回文链表">2.3 快慢指针：回文链表</h2>
+<p>给你一个单链表的头节点 head ，请你判断该链表是否为回文链表。如果是，返回 true ；否则，返回 false 。<br>
+提示：<br>
+链表中节点数目在范围[1, 105] 内<br>
+0 &lt;= Node.val &lt;= 9<br>
+ <br>
+进阶：你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？<br>
+链接：https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnv1oc/</p>
+<figure data-type="image" tabindex="3"><img src="https://ruoyi-chen.github.io/post-images/1637803960554.png" alt="" loading="lazy"></figure>
+<p>A -&gt; B -&gt; C -&gt; B -&gt; A<br>
+思路：把链表变成A &lt;- B &lt;- C -&gt; B -&gt; A，从两边散开分别比较。<br>
+关键点1：链表不能获得长度（除非遍历一遍），那怎么走到中间？-&gt; 用快慢指针，慢走一步快走两步，快走到null（或fast.next == null）时，慢就走到中间了。<br>
+关键点2：怎么在空间复杂度O(1)解决这个问题？前半部分边走边反转，反转方法和2.2一样。不考虑空间复杂度，就直接复制到一个新的数组里了。</p>
+<pre><code class="language-java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        //快慢指针
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode pre = head;
+        ListNode prepre = null;
+
+        //slow走到中间，边走边反转
+        //       head&lt;-...pre&lt;-slow-&gt;......-&gt;fast
+        while(fast != null &amp;&amp; fast.next != null){
+            //slow和fast向前走
+            slow = slow.next;
+            fast = fast.next.next;
+            //前反转
+            pre.next = prepre;
+            prepre = pre;
+            pre = slow;
+        }
+        if(fast != null){
+            slow = slow.next;
+        }
+
+        while(slow != null){
+            if(slow.val != prepre.val){
+                return false;
+            }
+            slow = slow.next;
+            prepre = prepre.next;
+        }
+        return true;
+    }
+}
+</code></pre>
+<h2 id="24-快慢指针环形链表">2.4 快慢指针：环形链表</h2>
+<blockquote>
+<p>这道题的龟兔赛跑用的很巧妙。</p>
+</blockquote>
+<p>给你一个链表的头节点 head ，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环，则返回 true 。 否则，返回 false 。<br>
+链接：https://leetcode-cn.com/leetbook/read/top-interview-questions-easy/xnwzei/</p>
+<figure data-type="image" tabindex="4"><img src="https://ruoyi-chen.github.io/post-images/1637804680116.png" alt="" loading="lazy"></figure>
+<p>最直观的想法使用HashSet（和数组判断重复的一样，看能不能加到Set里，加不进去就说明有重复），时间复杂度和空间复杂度都是O(n)。</p>
+<blockquote>
+<p>摘自力扣题解<br>
+本方法需要读者对「Floyd 判圈算法」（又称龟兔赛跑算法）有所了解。</p>
+<p>假想「乌龟」和「兔子」在链表上移动，「兔子」跑得快，「乌龟」跑得慢。当「乌龟」和「兔子」从链表上的同一个节点开始移动时，如果该链表中没有环，那么「兔子」将一直处于「乌龟」的前方；如果该链表中有环，那么「兔子」会先于「乌龟」进入环，并且一直在环内移动。等到「乌龟」进入环时，由于「兔子」的速度快，它一定会在某个时刻与乌龟相遇，即套了「乌龟」若干圈。</p>
+<p>我们可以根据上述思路来解决本题。具体地，我们定义两个指针，一快一满。慢指针每次只移动一步，而快指针每次移动两步。初始时，慢指针在位置 head，而快指针在位置 head.next。这样一来，如果在移动的过程中，快指针反过来追上慢指针，就说明该链表为环形链表。否则快指针将到达链表尾部，该链表不为环形链表。<br>
+链接：https://leetcode-cn.com/problems/linked-list-cycle/solution/huan-xing-lian-biao-by-leetcode-solution/</p>
+</blockquote>
+<figure data-type="image" tabindex="5"><img src="https://ruoyi-chen.github.io/post-images/1637805051911.png" alt="" loading="lazy"></figure>
+<p>🐰兔子跑两步，🐢乌龟跑一步，如果有环，兔子和乌龟肯定会相遇。</p>
+<pre><code class="language-java">public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+}
+</code></pre>
+<h1 id="3-递归">3 递归</h1>
+<h2 id="反转链表">反转链表</h2>
+<p>使用递归函数，一直递归到链表的最后一个结点，该结点就是反转后的头结点，记作 ret .<br>
+此后，每次函数在返回的过程中，让当前结点的下一个结点的 next 指针指向当前节点。<br>
+同时让当前结点的 next 指针指向 null（避免产生环，A-&gt;B-&gt;C-&gt;D  ===&gt; A-&gt;B**&lt;-&gt;<strong>C&lt;-D ，过不去了 就在BC之间转来转去了），从而实现从链表尾部开始的</strong>局部反转**<br>
+当递归函数全部出栈后，链表反转完成。</p>
+<blockquote>
+<p>更好地理解递归：假设在中间开始。<br>
+假设链表为：n_1-&gt;...-&gt;n_{k-1}-&gt;n_{k}-&gt;n_{k+1}-&gt;...-&gt;n_m-&gt;null<br>
+若n_{k+1}-&gt;...-&gt;n_m-&gt;null已反转，我们处于nk。===&gt; 我们希望下一个是nk+1-&gt;nk，即nk.next.next = nk;<br>
+需要注意的是nk的下一个节点必须指向 null。如果忽略了这一点，链表中可能会产生环。</p>
+</blockquote>
+<pre><code class="language-java">class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode newHead = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+}
+</code></pre>
+<p>链接：https://leetcode-cn.com/problems/reverse-linked-list/solution/fan-zhuan-lian-biao-by-leetcode-solution-d1k2/</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://ruoyi-chen.github.io/tag/9qoM6B42Q/" class="tag">
+                    LeetCode
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://ruoyi-chen.github.io/post/jdbc3or-shi-yong-preparedstatement-shi-xian-crud-cao-zuo/">
+                  <h3 class="post-title">
+                    💙 JDBC(3)｜ 使用PreparedStatement实现CRUD操作
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: [''],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
